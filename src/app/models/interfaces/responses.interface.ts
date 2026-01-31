@@ -78,5 +78,6 @@ export interface FormaPago {
 
 export interface LoginResponse {
     token: string;
-    usuario: Usuario;
+    nombre: string;
+    usuario?: Usuario;
 }

@@ -9,13 +9,40 @@ export const routes: Routes = [
     },
     {
         path: '',
+        loadComponent: () => import('@shared/layout/main-layout/main-layout').then(m => m.MainLayout),
+        canActivate: [authGuard],
         children: [
             {
+                path: 'usuarios',
+                loadComponent: () => import('./app').then(m => m.App), // Placeholder: Reemplazar con página de usuarios
+            },
+            {
+                path: 'clientes',
+                loadComponent: () => import('./app').then(m => m.App), // Placeholder
+            },
+            {
+                path: 'productos',
+                loadComponent: () => import('./app').then(m => m.App), // Placeholder
+            },
+            {
+                path: 'facturas',
+                children: [
+                    {
+                        path: '',
+                        loadComponent: () => import('./app').then(m => m.App), // Placeholder listado
+                    },
+                    {
+                        path: 'nueva',
+                        loadComponent: () => import('./app').then(m => m.App), // Placeholder nueva factura
+                    }
+                ]
+            },
+            {
                 path: '',
-                loadComponent: () => import('./app').then(m => m.App), // Usamos el AppComponent como placeholder por ahora
+                redirectTo: 'usuarios',
+                pathMatch: 'full'
             }
-        ],
-        canActivate: [authGuard]
+        ]
     },
     {
         path: '**',

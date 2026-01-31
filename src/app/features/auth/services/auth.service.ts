@@ -5,7 +5,8 @@ import { API_ENDPOINTS, APP_CONSTANTS } from '@core/constants';
 import {
     LoginRequest,
     ApiResponse,
-    LoginResponse
+    LoginResponse,
+    Usuario
 } from '@models/interfaces';
 
 @Injectable({
@@ -15,12 +16,22 @@ export class AuthService {
     private http = inject(HttpService);
 
     login(userName: string, contrasena: string): Observable<ApiResponse<LoginResponse>> {
-        const params: LoginRequest = { userName, contrasena };
-        return this.http.post<ApiResponse<LoginResponse>>(API_ENDPOINTS.AUTH.LOGIN, null, params).pipe(
+        // Pasamos directamente el objeto con los parámetros, sin el envoltorio { params: ... }
+        return this.http.post<ApiResponse<LoginResponse>>(API_ENDPOINTS.AUTH.LOGIN, null, {
+            userName,
+            contrasena
+        }).pipe(
             tap(response => {
                 if (response.datos?.token) {
                     this.guardarToken(response.datos.token);
-                    this.guardarUsuario(response.datos.usuario);
+
+                    // Si el API retorna el objeto usuario lo usamos, si no creamos uno con el nombre retornado
+                    const usuarioData = response.datos.usuario || {
+                        nombre: response.datos.nombre,
+                        username: userName
+                    } as Usuario;
+
+                    this.guardarUsuario(usuarioData);
                 }
             })
         );
@@ -43,7 +54,20 @@ export class AuthService {
         localStorage.setItem(APP_CONSTANTS.STORAGE_KEYS.TOKEN, token);
     }
 
-    private guardarUsuario(usuario: any): void {
+    private guardarUsuario(usuario: Usuario): void {
         localStorage.setItem(APP_CONSTANTS.STORAGE_KEYS.USER, JSON.stringify(usuario));
+    }
+
+    obtenerUsuario(): Usuario | null {
+        const usuarioJson = localStorage.getItem(APP_CONSTANTS.STORAGE_KEYS.USER);
+        if (usuarioJson) {
+            try {
+                return JSON.parse(usuarioJson) as Usuario;
+            } catch (e) {
+                console.error('Error parseando usuario del localStorage', e);
+                return null;
+            }
+        }
+        return null;
     }
 }
