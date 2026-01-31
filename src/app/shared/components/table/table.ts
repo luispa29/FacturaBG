@@ -1,6 +1,16 @@
-import { Component, Input, Output, EventEmitter, TemplateRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, TemplateRef, ContentChildren, QueryList, Directive } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Button } from '../button/button';
+import { PaginationData, PageEvent } from '@models/interfaces';
+
+@Directive({
+    selector: '[appTemplate]',
+    standalone: true
+})
+export class AppTemplate {
+    @Input('appTemplate') name: string = '';
+    constructor(public template: TemplateRef<any>) { }
+}
 
 export interface TableColumn {
     field: string;
@@ -10,24 +20,19 @@ export interface TableColumn {
     template?: TemplateRef<any>;
 }
 
-export interface PaginationData {
-    page: number;
-    pageSize: number;
-    totalRecords: number;
-}
-
-export interface PageEvent {
-    page: number;
-    pageSize: number;
-}
-
 @Component({
     selector: 'app-table',
+    standalone: true,
     imports: [CommonModule, Button],
     templateUrl: './table.html',
     styleUrl: './table.css'
 })
 export class Table {
+    @ContentChildren(AppTemplate) queryTemplates?: QueryList<AppTemplate>;
+
+    getTemplate(name: string): TemplateRef<any> | null {
+        return this.queryTemplates?.find(t => t.name === name)?.template || null;
+    }
     @Input() columns: TableColumn[] = [];
     @Input() data: any[] = [];
     @Input() loading: boolean = false;

@@ -1,0 +1,61 @@
+<div class="page-container">
+    <div class="page-header flex justify-between items-center mb-6">
+        <div>
+            <h1 class="text-2xl font-bold text-slate-800">Usuarios</h1>
+        </div>
+        <app-button label="Añadir Usuario" icon="plus" (onClick)="nuevoUsuario()" />
+    </div>
+
+    <!-- Filtros -->
+    <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100 mb-6 flex  gap-4 justify-center items-center">
+        <div class="flex-1 min-w-[250px]">
+            <app-input-text label="Buscar usuario" placeholder="Nombre, usuario o email..." icon="search" iconPos="left"
+                [(ngModel)]="filtroTexto" (ngModelChange)="onSearch()" />
+        </div>
+        <div class="w-[200px]">
+            <app-select label="Estado" [options]="estadoOptions" [(ngModel)]="filtroEstado"
+                (ngModelChange)="onEstadoChange()" />
+        </div>
+        <app-button class="mt-6" label="Actualizar" icon="refresh" severity="secondary" (onClick)="cargarUsuarios()" />
+    </div>
+
+    <!-- Tabla -->
+    <div class="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
+        <app-table [data]="usuarios()" [columns]="columns" [pagination]="pagination()" [loading]="loading()"
+            (onPageChange)="cargarUsuarios($event)">
+            <!-- Custom Cell para el Estado -->
+            <ng-template appTemplate="activo" let-row="row">
+                @if (row.activo) {
+                <span class="px-3 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full">
+                    ACTIVO
+                </span>
+                } @else {
+                <span class="px-3 py-1 bg-red-100 text-red-700 text-xs font-bold rounded-full">
+                    INACTIVO
+                </span>
+                }
+            </ng-template>
+
+            <!-- Custom Cell para la Fecha -->
+            <ng-template appTemplate="fechaCreacion" let-row="row">
+                <span class="text-slate-600 text-sm">
+                    {{ row.fechaCreacion | date:'dd/MM/yyyy' }}
+                </span>
+            </ng-template>
+
+            <!-- Acciones -->
+            <ng-template appTemplate="acciones" let-row="row">
+                <div class="flex gap-2">
+                    <button (click)="editarUsuario(row)"
+                        class="p-2 hover:bg-slate-100 rounded-lg text-slate-500 transition-colors">
+                        <i class="pi pi-pencil"></i>
+                    </button>
+                    <button (click)="eliminarUsuario(row)"
+                        class="p-2 hover:bg-red-50 rounded-lg text-red-500 transition-colors">
+                        <i class="pi pi-trash"></i>
+                    </button>
+                </div>
+            </ng-template>
+        </app-table>
+    </div>
+</div>

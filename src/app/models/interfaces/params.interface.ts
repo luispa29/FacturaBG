@@ -3,6 +3,8 @@ export interface PaginacionParams {
     numeroPagina?: number;
     tamanoPagina?: number;
     soloActivos?: boolean;
+    columnaOrden?: string;
+    ordenAscendente?: boolean;
 }
 
 export interface FacturaFiltroParams {

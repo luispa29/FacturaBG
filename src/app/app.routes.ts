@@ -14,7 +14,7 @@ export const routes: Routes = [
         children: [
             {
                 path: 'usuarios',
-                loadComponent: () => import('./app').then(m => m.App), // Placeholder: Reemplazar con página de usuarios
+                loadComponent: () => import('@features/usuarios/pages/usuario-list/usuario-list').then(m => m.UsuarioList),
             },
             {
                 path: 'clientes',

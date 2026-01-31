@@ -32,7 +32,7 @@ export interface Producto {
 }
 
 export interface Usuario {
-    id: number;
+    usuarioID: number;
     username: string;
     nombre: string;
     email: string;
