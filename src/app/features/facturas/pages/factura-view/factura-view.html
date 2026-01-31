@@ -1,0 +1,131 @@
+<div class="p-6 page-container animate-fade-in" *ngIf="factura() as f">
+    <!-- Header Section -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 no-print">
+        <div>
+            <div class="flex items-center gap-2 mb-1">
+                <button (click)="volver()" class="p-2 hover:bg-slate-100 rounded-lg transition-colors text-slate-500">
+                    <i class="pi pi-arrow-left"></i>
+                </button>
+                <h1 class="text-3xl font-black text-slate-800 tracking-tight">Detalle de Factura</h1>
+            </div>
+            <p class="text-slate-500 ml-10">Visualización de la factura {{ f.numeroFactura }}</p>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Main Info Card -->
+        <div class="lg:col-span-2 space-y-8">
+            <!-- Header Data -->
+            <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+                <div class="flex justify-between items-start mb-8">
+                    <div class="space-y-1">
+                        <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Información
+                            General</span>
+                        <h2 class="text-2xl font-bold text-slate-800">{{ f.numeroFactura }}</h2>
+                    </div>
+                    <span
+                        [class]="'px-4 py-1.5 rounded-full text-xs font-bold uppercase ' + (f.activo ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700')">
+                        {{ f.activo ? 'Emitida' : 'Anulada' }}
+                    </span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="text-xs font-bold text-slate-400 uppercase">Cliente</label>
+                            <p class="font-bold text-slate-700 text-lg">{{ f.clienteNombre }}</p>
+                            <p class="text-sm text-slate-500">{{ f.clienteIdentificacion }}</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="flex justify-between">
+                            <div>
+                                <label class="text-xs font-bold text-slate-400 uppercase">Fecha Emisión</label>
+                                <p class="font-medium text-slate-700">{{ f.fechaFactura | date:'dd/MM/yyyy HH:mm' }}</p>
+                            </div>
+                            <div class="text-right">
+                                <label class="text-xs font-bold text-slate-400 uppercase">Vendedor</label>
+                                <p class="font-medium text-slate-700">{{ f.vendedorNombre }}</p>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold text-slate-400 uppercase">Fecha Creación</label>
+                            <p class="text-slate-500 text-sm">{{ f.fechaCreacion | date:'dd/MM/yyyy HH:mm:ss' }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Details Table -->
+            <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
+                <div class="p-6 border-b border-slate-50">
+                    <h3 class="font-bold text-slate-700">Detalle de Productos</h3>
+                </div>
+                <app-table [data]="f.detalles" [columns]="detalleColumns">
+                    <ng-template appTemplate="precioUnitario" let-row="row">
+                        <span class="text-slate-600">{{ row.precioUnitario | currency:'USD' }}</span>
+                    </ng-template>
+                    <ng-template appTemplate="subtotal" let-row="row">
+                        <span class="text-slate-600 font-medium">{{ row.subtotal | currency:'USD' }}</span>
+                    </ng-template>
+                    <ng-template appTemplate="iva" let-row="row">
+                        <span class="text-slate-400">{{ row.iva | currency:'USD' }}</span>
+                    </ng-template>
+                    <ng-template appTemplate="total" let-row="row">
+                        <span class="text-slate-800 font-bold">{{ row.total | currency:'USD' }}</span>
+                    </ng-template>
+                </app-table>
+            </div>
+        </div>
+
+        <!-- Summary & Payments Sidebar -->
+        <div class="space-y-8">
+            <!-- Totals Card -->
+            <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+                <h3 class="text-slate-400 text-xs font-bold uppercase tracking-widest mb-6">Resumen de Totales</h3>
+
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center text-slate-600">
+                        <span>Subtotal</span>
+                        <span class="font-medium">{{ f.subtotal | currency:'USD' }}</span>
+                    </div>
+                    <div class="flex justify-between items-center text-slate-600">
+                        <span>IVA</span>
+                        <span>{{ f.iva | currency:'USD' }}</span>
+                    </div>
+                    <div class="pt-4 border-t border-slate-100 flex justify-between items-center">
+                        <span class="text-lg font-medium text-slate-700">Total</span>
+                        <span class="text-3xl font-black text-blue-600">{{ f.total | currency:'USD' }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payments Card -->
+            <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
+                <div class="flex items-center gap-2 mb-6">
+                    <div class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-600">
+                        <i class="pi pi-credit-card"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-700">Formas de Pago</h3>
+                </div>
+
+                <div class="space-y-4">
+                    <div *ngFor="let pago of f.pagos" class="p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="font-bold text-slate-700">{{ pago.formaPagoNombre }}</span>
+                            <span class="font-black text-blue-600">{{ pago.monto | currency:'USD' }}</span>
+                        </div>
+                        <p class="text-xs text-slate-400 uppercase font-medium tracking-tighter">Referencia</p>
+                        <p class="text-sm text-slate-500">{{ pago.referencia || 'Sin referencia' }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="loading()" class="flex flex-col items-center justify-center min-h-[400px] space-y-4">
+    <div class="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+    <p class="text-slate-500 font-medium">Cargando información de la factura...</p>
+</div>

@@ -61,18 +61,22 @@ export interface Factura {
 }
 
 export interface FacturaDetalle {
-    id: number;
+    detalleID: number;
     facturaID: number;
     productoID: number;
+    productoNombre: string;
     cantidad: number;
     precioUnitario: number;
     subtotal: number;
+    iva: number;
+    total: number;
 }
 
 export interface FacturaPago {
-    id: number;
+    pagoID: number;
     facturaID: number;
     formaPagoID: number;
+    formaPagoNombre: string;
     monto: number;
     referencia: string;
 }

@@ -144,6 +144,6 @@ export class FacturaList implements OnInit {
     }
 
     public verDetalle(factura: Factura): void {
-        console.log('Ver detalle:', factura);
+        this.router.navigate(['/facturas/ver', factura.facturaID]);
     }
 }

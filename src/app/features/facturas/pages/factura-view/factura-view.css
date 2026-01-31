@@ -1,0 +1,60 @@
+.page-container {
+    background-color: #f8fafc;
+    min-height: calc(100vh - 64px);
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media print {
+    .no-print {
+        display: none !important;
+    }
+
+    .page-container {
+        background-color: white !important;
+        padding: 0 !important;
+    }
+
+    .bg-white,
+    .bg-blue-600 {
+        box-shadow: none !important;
+        border: none !important;
+    }
+
+    .bg-blue-600 {
+        background-color: transparent !important;
+        color: black !important;
+        padding: 0 !important;
+    }
+
+    .text-blue-100,
+    .text-blue-500 {
+        color: #64748b !important;
+    }
+
+    .border-t-blue-500 {
+        border-top-color: #e2e8f0 !important;
+    }
+
+    .text-white {
+        color: black !important;
+    }
+
+    .rounded-3xl {
+        border-radius: 0 !important;
+    }
+}

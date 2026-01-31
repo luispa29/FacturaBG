@@ -73,6 +73,10 @@ export const routes: Routes = [
                     {
                         path: 'nueva',
                         loadComponent: () => import('./features/facturas/pages/factura-form/factura-form').then(m => m.FacturaForm),
+                    },
+                    {
+                        path: 'ver/:id',
+                        loadComponent: () => import('./features/facturas/pages/factura-view/factura-view').then(m => m.FacturaView),
                     }
                 ]
             },
