@@ -25,8 +25,9 @@ export class Select implements ControlValueAccessor {
   @Input() disabled: boolean = false;
   @Input() required: boolean = false;
   @Input() errorMessage: string = '';
-  @Input() filter: boolean = false;
+  @Input() filter: boolean = true;
   @Input() showClear: boolean = true;
+  @Input() invalid: any = false;
 
   value: any = null;
   onChange: any = () => { };

@@ -1,0 +1,74 @@
+<div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+    <div class="flex justify-between items-center mb-6">
+        <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600">
+                <i class="pi pi-credit-card text-lg"></i>
+            </div>
+            <h2 class="text-xl font-bold text-slate-800">Formas de Pago</h2>
+        </div>
+        <div class="text-right">
+            <span class="text-sm text-slate-500 block">Total a Pagar</span>
+            <span class="text-xl font-bold text-indigo-600">{{ totalFactura | currency:'USD' }}</span>
+        </div>
+    </div>
+
+    <!-- Formulario rápido para añadir pago -->
+    <div class="bg-slate-50 p-4 rounded-xl mb-6 grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+        <div class="md:col-span-1">
+            <app-select label="Forma de Pago" [options]="formasPagoOptions()" [(ngModel)]="nuevaFormaPagoID" />
+        </div>
+        <div>
+            <app-input-text label="Monto" type="number" [(ngModel)]="monto" />
+        </div>
+        <div>
+            <app-input-text label="Referencia" placeholder="Ej. Trans #9901" [(ngModel)]="referencia" />
+        </div>
+        <app-button label="Agregar pago" icon="plus" variant="outline" [disabled]="!nuevaFormaPagoID() || monto() <= 0"
+            (onClick)="agregarPago()" />
+    </div>
+
+    <!-- Lista de pagos añadidos -->
+    <div class="space-y-3">
+        @for (pago of pagos; track $index) {
+        <div
+            class="flex items-center justify-between p-4 border border-slate-100 rounded-xl hover:bg-slate-50 transition-colors">
+            <div class="flex items-center gap-4">
+                <div
+                    class="w-10 h-10 rounded-lg bg-white border border-slate-100 flex items-center justify-center text-indigo-500">
+                    <i class="pi pi-wallet"></i>
+                </div>
+                <div>
+                    <span class="text-xs text-slate-500 uppercase font-bold tracking-wider">Abono</span>
+                    <div class="text-slate-800 font-medium">
+                        Referencia: {{ pago.referencia || 'N/A' }}
+                    </div>
+                </div>
+            </div>
+            <div class="flex items-center gap-6">
+                <span class="text-lg font-bold text-slate-900">{{ pago.monto | currency:'USD' }}</span>
+                <button (click)="eliminarPago($index)" class="text-red-400 hover:text-red-600 transition-colors">
+                    <i class="pi pi-trash"></i>
+                </button>
+            </div>
+        </div>
+        } @empty {
+        <div class="p-6 text-center text-slate-400 border border-dashed border-slate-200 rounded-xl">
+            No se han registrado pagos aún
+        </div>
+        }
+    </div>
+
+    <div class="mt-6 pt-6 border-t border-slate-100 flex justify-between items-center">
+        <div class="flex gap-4 items-center">
+            <div
+                [class]="'px-4 py-2 rounded-full text-sm font-bold ' + (saldoRestante === 0 ? 'bg-emerald-100 text-emerald-700' : 'bg-orange-100 text-orange-700')">
+                {{ saldoRestante === 0 ? 'PAGADO EN TOTALIDAD' : 'SALDO PENDIENTE: ' + (saldoRestante | currency:'USD')
+                }}
+            </div>
+        </div>
+        <div class="text-right">
+            <span class="text-sm text-slate-500 block">Total Registrado</span>
+            <span class="text-lg font-bold text-slate-900">{{ totalPagado | currency:'USD' }}</span>
+        </div>
+    </div>
+</div>

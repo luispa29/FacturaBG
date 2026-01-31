@@ -1,0 +1,52 @@
+<div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+        <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-600">
+                <i class="pi pi-list text-lg"></i>
+            </div>
+            <h2 class="text-xl font-bold text-slate-800">Detalle de Productos</h2>
+        </div>
+        <app-button label="Añadir Producto" icon="plus" severity="success" (onClick)="addProduct()" />
+    </div>
+
+    <div class="rounded-xl border border-slate-100 overflow-hidden">
+        <app-table [data]="detalles" [columns]="columns">
+            <!-- Custom Row for Name -->
+            <ng-template appTemplate="nombreProducto" let-row="row">
+                <span class="text-slate-800 font-medium">#{{row.productoID}} - {{row.nombreProducto}}</span>
+            </ng-template>
+
+            <!-- Quantity -->
+            <ng-template appTemplate="cantidad" let-row="row">
+                <input type="number" [value]="row.cantidad" (input)="actualizarCantidad(row, $any($event.target).value)"
+                    class="w-full p-2 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+                    min="1" />
+            </ng-template>
+
+            <!-- Price -->
+            <ng-template appTemplate="precioUnitario" let-row="row">
+                {{ row.precioUnitario | currency:'USD' }}
+            </ng-template>
+
+            <!-- Subtotal -->
+            <ng-template appTemplate="subtotal" let-row="row">
+                <span class="font-bold text-slate-900">{{ row.subtotal | currency:'USD' }}</span>
+            </ng-template>
+
+            <!-- Actions -->
+            <ng-template appTemplate="acciones" let-row="row" let-index="index">
+                <button (click)="removeDetalle(index)"
+                    class="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors">
+                    <i class="pi pi-trash"></i>
+                </button>
+            </ng-template>
+        </app-table>
+
+        @if (detalles.length === 0) {
+        <div class="p-12 text-center text-slate-400">
+            <i class="pi pi-shopping-cart text-4xl mb-3 opacity-20"></i>
+            <p>No hay productos agregados</p>
+        </div>
+        }
+    </div>
+</div>

@@ -72,7 +72,7 @@ export const routes: Routes = [
                     },
                     {
                         path: 'nueva',
-                        loadComponent: () => import('./app').then(m => m.App), // Placeholder nueva factura
+                        loadComponent: () => import('./features/facturas/pages/factura-form/factura-form').then(m => m.FacturaForm),
                     }
                 ]
             },

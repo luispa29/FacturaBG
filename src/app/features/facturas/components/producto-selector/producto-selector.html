@@ -1,0 +1,62 @@
+<div class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div
+        class="bg-white rounded-3xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden animate-scale-in">
+        <!-- Header -->
+        <div class="p-6 border-b border-slate-100 flex justify-between items-center">
+            <div>
+                <h2 class="text-2xl font-bold text-slate-800">Seleccionar Producto</h2>
+                <p class="text-slate-500 text-sm">Busque y configure los productos para la factura</p>
+            </div>
+            <button (click)="cerrar()" class="text-slate-400 hover:text-slate-600 transition-colors">
+                <i class="pi pi-times text-xl"></i>
+            </button>
+        </div>
+
+        <!-- Body -->
+        <div class="flex-1 overflow-hidden flex flex-col p-6">
+            <div class="mb-4">
+                <app-input-text placeholder="Buscar producto..." icon="search" [(ngModel)]="filtroTexto"
+                    (ngModelChange)="cargarProductos()" />
+            </div>
+
+            <div class="flex-1 overflow-y-auto border border-slate-100 rounded-xl mb-4 max-h-[300px]">
+                <app-table [data]="productos()" [columns]="columns" [loading]="loading()" [showHeader]="true"
+                    (onRowClick)="seleccionarFila($event)">
+                    <ng-template appTemplate="precioUnitario" let-row="row">
+                        <span class="font-medium">{{ row.precioUnitario | currency:'USD' }}</span>
+                    </ng-template>
+
+                    <ng-template appTemplate="stockActual" let-row="row">
+                        <span
+                            [class]="'px-2 py-0.5 rounded-full text-[10px] font-bold ' + (row.stockActual <= 10 ? 'bg-orange-100 text-orange-700' : 'bg-green-100 text-green-700')">
+                            {{ row.stockActual }} unid.
+                        </span>
+                    </ng-template>
+                </app-table>
+            </div>
+
+            <!-- Configuration Section -->
+            @if (productoSeleccionado()) {
+            <div class="p-4 bg-blue-50/50 rounded-2xl border border-blue-100 animate-slide-up">
+                <div class="flex flex-col md:flex-row gap-4 items-end">
+                    <div class="flex-1">
+                        <span class="text-xs font-bold text-blue-700 uppercase block mb-2">Producto Seleccionado:
+                            {{productoSeleccionado()?.nombre}}</span>
+                        <div class="grid grid-cols-2 gap-4">
+                            <app-input-text label="Cantidad" type="number" [(ngModel)]="cantidad" />
+                            <app-input-text label="Precio Venta" type="number" [(ngModel)]="precioEditable" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+
+        <!-- Footer -->
+        <div class="p-6 border-t border-slate-100 flex justify-end gap-3 bg-slate-50/50">
+            <app-button label="Cancelar" severity="secondary" variant="outline" (onClick)="cerrar()" />
+            <app-button label="Agregar a Detalle" severity="success" [disabled]="!productoSeleccionado()"
+                (onClick)="agregar()" />
+        </div>
+    </div>
+</div>

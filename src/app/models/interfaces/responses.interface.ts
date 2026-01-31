@@ -71,7 +71,7 @@ export interface FacturaPago {
 }
 
 export interface FormaPago {
-    id: number;
+    formaPagoID: number;
     nombre: string;
     activo: boolean;
 }

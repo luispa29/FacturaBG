@@ -1,0 +1,77 @@
+<div class="page-container p-6 animate-fade-in">
+    <div class="flex flex-col md:flex-row gap-8">
+        <!-- Columna Izquierda: Formulario Modular -->
+        <div class="flex-1 space-y-8">
+            <!-- Sección 1: Info General -->
+            <app-factura-info [form]="form" />
+
+            <!-- Sección 2: Detalle de Productos -->
+            <app-factura-detalle [detalles]="detalles()" (onAddProduct)="abrirSelector()"
+                (onRemove)="eliminarDetalle($event)" (onUpdate)="actualizarDetalle($event)" />
+            <!-- Sección 3: Formas de Pago -->
+            <app-factura-pago [pagos]="pagos()" [totalFactura]="total()" (onAddPago)="agregarPago($event)"
+                (onRemovePago)="eliminarPago($event)" />
+        </div>
+
+        <!-- Columna Derecha: Resumen y Acciones -->
+        <div class="w-full md:w-80 lg:w-96">
+            <div class="sticky top-6 space-y-4">
+                <div
+                    class="bg-white rounded-3xl shadow-sm border-t-4 border-t-blue-600 border-x border-b border-slate-100 overflow-hidden">
+                    <div class="p-6">
+                        <h2 class="text-xl font-bold text-slate-800 mb-6 uppercase tracking-wider text-sm">Resumen de
+                            Factura</h2>
+
+                        <div class="space-y-4 mb-8">
+                            <div class="flex justify-between items-center text-slate-500">
+                                <span>Subtotal</span>
+                                <span class="font-medium text-slate-700">{{ subtotal() | currency:'USD' }}</span>
+                            </div>
+                            <div class="flex justify-between items-center text-slate-500">
+                                <span>IVA (0%)</span>
+                                <span class="font-medium text-slate-700">{{ iva() | currency:'USD' }}</span>
+                            </div>
+                            <div class="flex justify-between items-center text-slate-400">
+                                <span>Retenciones</span>
+                                <span class="font-medium">-$0.00</span>
+                            </div>
+                        </div>
+                        <div class="pt-6 border-t border-slate-50">
+                            <div class="flex justify-between items-end">
+                                <span class="text-sm text-slate-500 font-bold uppercase">Total Factura</span>
+                                <span class="text-3xl font-black text-blue-600 tracking-tight">{{ total() |
+                                    currency:'USD' }}</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 flex gap-3">
+                            <app-button label="Registrar" icon="save" class="flex-1" [loading]="loading()"
+                                [disabled]="detalles().length === 0" (onClick)="registrarFactura()" />
+                            <app-button label="Cancelar" severity="secondary" variant="outline" class="flex-1"
+                                (onClick)="cancelar()" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Banner de Validación -->
+                <div class="bg-blue-50/50 border border-blue-100 p-4 rounded-2xl flex gap-3">
+                    <div class="text-blue-500">
+                        <i class="pi pi-shield"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs font-bold text-blue-700 uppercase block mb-1">Verificación</span>
+                        <p class="text-[11px] text-blue-600/80 leading-relaxed">
+                            Asegúrese de que el total pagado coincida exactamente con el total de la factura para
+                            proceder.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Selector de Productos -->
+@if (showSelector()) {
+<app-producto-selector (onSelect)="onProductoSelected($event)" (onClose)="showSelector.set(false)" />
+}

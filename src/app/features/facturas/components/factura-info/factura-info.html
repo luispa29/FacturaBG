@@ -1,0 +1,30 @@
+<div [formGroup]="form" class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+    <div class="flex items-center gap-2 mb-6">
+        <div class="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-blue-600">
+            <i class="pi pi-info-circle text-lg"></i>
+        </div>
+        <h2 class="text-xl font-bold text-slate-800">Información General</h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Cliente -->
+        <div>
+            <app-select label="Cliente (ID/Nombre)" placeholder="Seleccione un cliente..." [options]="clientesOptions()"
+                formControlName="clienteID" [filter]="true"
+                [invalid]="!!(form.get('clienteID')?.invalid && form.get('clienteID')?.touched)" />
+        </div>
+
+        <!-- Vendedor -->
+        <div>
+            <app-select label="Vendedor (ID/Nombre)" placeholder="Seleccione un vendedor..."
+                [options]="vendedoresOptions()" formControlName="vendedorID" [filter]="true"
+                [invalid]="!!(form.get('vendedorID')?.invalid && form.get('vendedorID')?.touched)" />
+        </div>
+
+        <!-- Fecha Emisión -->
+        <div>
+            <app-input-text type="date" label="Fecha de Emisión" formControlName="fechaFactura"
+                [invalid]="!!(form.get('fechaFactura')?.invalid && form.get('fechaFactura')?.touched)" />
+        </div>
+    </div>
+</div>
