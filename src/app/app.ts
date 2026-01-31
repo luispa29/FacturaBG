@@ -1,6 +1,7 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ToastModule } from 'primeng/toast';
+import { LoadingService } from '@core/services';
 
 @Component({
   selector: 'app-root',
@@ -9,4 +10,5 @@ import { ToastModule } from 'primeng/toast';
   styleUrl: './app.css'
 })
 export class App {
+  loadingService = inject(LoadingService);
 }

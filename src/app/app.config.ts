@@ -5,14 +5,14 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { MessageService } from 'primeng/api';
 
 import { routes } from './app.routes';
-import { errorInterceptor, successInterceptor } from '@core/interceptors';
+import { errorInterceptor, successInterceptor, loadingInterceptor } from '@core/interceptors';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideHttpClient(withInterceptors([errorInterceptor, successInterceptor])),
+    provideHttpClient(withInterceptors([loadingInterceptor, errorInterceptor, successInterceptor])),
     provideAnimations(),
     MessageService
   ]
