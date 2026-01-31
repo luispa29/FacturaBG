@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Table, Button, InputText, Select, AppTemplate } from '@shared/components';
 import { UsuarioService } from '../../services/usuario.service';
 import { Usuario, PaginacionParams, ApiResponse, PaginationData, PageEvent } from '@models/interfaces';
-import { MessageService } from 'primeng/api';
+import { MessageService, ConfirmationService } from 'primeng/api';
 
 @Component({
     selector: 'app-usuario-list',
@@ -17,6 +17,7 @@ import { MessageService } from 'primeng/api';
 export class UsuarioList implements OnInit {
     private usuarioService = inject(UsuarioService);
     private messageService = inject(MessageService);
+    private confirmationService = inject(ConfirmationService);
     private router = inject(Router);
 
     // Estado de los datos
@@ -112,7 +113,33 @@ export class UsuarioList implements OnInit {
     }
 
     eliminarUsuario(usuario: Usuario): void {
-        // Implementación pendiente o confirmación
-        this.messageService.add({ severity: 'info', summary: 'Info', detail: 'Funcionalidad de eliminar pendiente' });
+        this.confirmationService.confirm({
+            message: `¿Está seguro que desea eliminar al usuario <b>${usuario.nombre}</b>?`,
+            header: 'Confirmar Eliminación',
+            icon: 'pi pi-exclamation-triangle',
+            acceptLabel: 'Sí, eliminar',
+            rejectLabel: 'Cancelar',
+            rejectButtonStyleClass: 'p-button-text p-button-secondary',
+            acceptButtonStyleClass: 'p-button-danger',
+            accept: () => {
+                this.usuarioService.eliminarUsuario(usuario.usuarioID).subscribe({
+                    next: () => {
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: 'Eliminado',
+                            detail: 'Usuario eliminado correctamente'
+                        });
+                        this.cargarUsuarios();
+                    },
+                    error: () => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: 'Error',
+                            detail: 'No se pudo eliminar al usuario'
+                        });
+                    }
+                });
+            }
+        });
     }
 }

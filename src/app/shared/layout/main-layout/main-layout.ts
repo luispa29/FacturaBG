@@ -11,10 +11,13 @@ interface MenuItem {
     children?: MenuItem[];
 }
 
+import { ToastModule } from 'primeng/toast';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+
 @Component({
     selector: 'app-main-layout',
     standalone: true,
-    imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive],
+    imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, ToastModule, ConfirmDialogModule],
     templateUrl: './main-layout.html',
     styleUrl: './main-layout.css'
 })
