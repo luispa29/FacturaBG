@@ -14,9 +14,8 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
             let severity: 'error' | 'warn' = 'error';
             let summary = 'Error';
 
-            if (error.error?.mensaje) {
-                mensajeError = error.error.mensaje;
-            } else if (error.status === 0) {
+
+            if (error.status === 0) {
                 mensajeError = 'Error de conexión. Verifique su conexión a internet';
             } else if (error.status === 400) {
                 mensajeError = error.error?.mensaje || 'Error de validación. Verifique los datos ingresados';
