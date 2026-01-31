@@ -55,22 +55,30 @@ export class Table {
     sortOrder: 'asc' | 'desc' = 'asc';
 
     get totalPages(): number {
-        return Math.ceil(this.pagination.totalRecords / this.pagination.pageSize);
+        const totalRecords = this.pagination?.totalRecords || 0;
+        const pageSize = this.pagination?.pageSize || 10;
+        return Math.max(1, Math.ceil(totalRecords / pageSize));
     }
 
     get startRecord(): number {
-        return (this.pagination.page - 1) * this.pagination.pageSize + 1;
+        const page = this.pagination?.page || 1;
+        const pageSize = this.pagination?.pageSize || 10;
+        return (page - 1) * pageSize + 1;
     }
 
     get endRecord(): number {
-        const end = this.pagination.page * this.pagination.pageSize;
-        return end > this.pagination.totalRecords ? this.pagination.totalRecords : end;
+        const page = this.pagination?.page || 1;
+        const pageSize = this.pagination?.pageSize || 10;
+        const totalRecords = this.pagination?.totalRecords || 0;
+        const end = page * pageSize;
+        return end > totalRecords ? totalRecords : end;
     }
 
     get visiblePages(): number[] {
         const pages: number[] = [];
         const maxVisible = 5;
-        let start = Math.max(1, this.pagination.page - Math.floor(maxVisible / 2));
+        const currentPage = this.pagination?.page || 1;
+        let start = Math.max(1, currentPage - Math.floor(maxVisible / 2));
         let end = Math.min(this.totalPages, start + maxVisible - 1);
 
         if (end - start < maxVisible - 1) {

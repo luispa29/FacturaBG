@@ -13,13 +13,13 @@ export interface PaginacionInfo {
 }
 
 export interface Cliente {
-    id: number;
+    clienteID: number;
     identificacion: string;
     nombre: string;
     telefono: string;
     email: string;
     activo: boolean;
-    fechaCreacion: Date;
+    fechaRegistro: Date;
 }
 
 export interface Producto {

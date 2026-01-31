@@ -1,9 +1,9 @@
 export interface ClienteRequest {
     id: number;
-    identificacion: string | null;
-    nombre: string | null;
-    telefono: string | null;
-    email: string | null;
+    identificacion: string;
+    nombre: string;
+    telefono: string;
+    email: string;
 }
 
 export interface ProductoRequest {

@@ -31,7 +31,20 @@ export const routes: Routes = [
             },
             {
                 path: 'clientes',
-                loadComponent: () => import('./app').then(m => m.App), // Placeholder
+                children: [
+                    {
+                        path: '',
+                        loadComponent: () => import('./features/clientes/pages/cliente-list/cliente-list').then(m => m.ClienteList),
+                    },
+                    {
+                        path: 'nuevo',
+                        loadComponent: () => import('./features/clientes/pages/cliente-form/cliente-form').then(m => m.ClienteForm),
+                    },
+                    {
+                        path: 'editar/:id',
+                        loadComponent: () => import('./features/clientes/pages/cliente-form/cliente-form').then(m => m.ClienteForm),
+                    }
+                ]
             },
             {
                 path: 'productos',

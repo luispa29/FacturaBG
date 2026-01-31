@@ -1,0 +1,4 @@
+/* Estilos específicos para el listado de clientes */
+:host {
+    display: block;
+}
