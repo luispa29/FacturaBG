@@ -8,7 +8,7 @@ export interface ClienteRequest {
 
 export interface ProductoRequest {
     id: number;
-    nombre: string | null;
+    nombre: string;
     precioUnitario: number;
     stockActual: number;
 }

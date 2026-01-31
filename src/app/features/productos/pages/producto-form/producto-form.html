@@ -1,0 +1,47 @@
+<div class="page-container animate-fade-in">
+    <div class="page-header flex justify-between items-center mb-6">
+        <div>
+            <h1 class="text-2xl font-bold text-slate-800">
+                {{ isEdit() ? 'Editar Producto' : 'Nuevo Producto' }}
+            </h1>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden max-w-4xl mx-auto">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="p-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Nombre del Producto -->
+                <div class="md:col-span-2">
+                    <app-input-text label="Nombre del Producto" placeholder="Ej. Laptop Dell XPS"
+                        formControlName="nombre"
+                        [invalid]="!!(form.get('nombre')?.invalid && form.get('nombre')?.touched)" />
+                </div>
+
+                <!-- Precio Unitario -->
+                <div>
+                    <app-input-text label="Precio Unitario" placeholder="Ej. 1200.50" type="number"
+                        formControlName="precioUnitario"
+                        [invalid]="!!(form.get('precioUnitario')?.invalid && form.get('precioUnitario')?.touched)" />
+                </div>
+
+                <!-- Stock Actual -->
+                <div>
+                    <app-input-text label="Stock Actual" placeholder="Ej. 100" type="number"
+                        formControlName="stockActual"
+                        [invalid]="!!(form.get('stockActual')?.invalid && form.get('stockActual')?.touched)" />
+                </div>
+
+                <!-- Estado -->
+                <div>
+                    <app-select label="Estado" [options]="estadoOptions" formControlName="activo" />
+                </div>
+            </div>
+
+            <div class="flex justify-end gap-4 mt-10 pt-6 border-t border-slate-100">
+                <app-button label="Cancelar" severity="secondary" variant="outline" (onClick)="cancelar()"
+                    [disabled]="loading()" />
+                <app-button label="Guardar Producto" icon="save" type="submit" [loading]="loading()" />
+            </div>
+        </form>
+    </div>
+</div>

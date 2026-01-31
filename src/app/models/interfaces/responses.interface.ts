@@ -23,12 +23,12 @@ export interface Cliente {
 }
 
 export interface Producto {
-    id: number;
+    productoID: number;
     nombre: string;
     precioUnitario: number;
     stockActual: number;
     activo: boolean;
-    fechaCreacion: Date;
+    fechaCreacion?: Date;
 }
 
 export interface Usuario {

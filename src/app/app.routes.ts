@@ -34,21 +34,34 @@ export const routes: Routes = [
                 children: [
                     {
                         path: '',
-                        loadComponent: () => import('./features/clientes/pages/cliente-list/cliente-list').then(m => m.ClienteList),
+                        loadComponent: () => import('@features/clientes/pages/cliente-list/cliente-list').then(m => m.ClienteList),
                     },
                     {
                         path: 'nuevo',
-                        loadComponent: () => import('./features/clientes/pages/cliente-form/cliente-form').then(m => m.ClienteForm),
+                        loadComponent: () => import('@features/clientes/pages/cliente-form/cliente-form').then(m => m.ClienteForm),
                     },
                     {
                         path: 'editar/:id',
-                        loadComponent: () => import('./features/clientes/pages/cliente-form/cliente-form').then(m => m.ClienteForm),
+                        loadComponent: () => import('@features/clientes/pages/cliente-form/cliente-form').then(m => m.ClienteForm),
                     }
                 ]
             },
             {
                 path: 'productos',
-                loadComponent: () => import('./app').then(m => m.App), // Placeholder
+                children: [
+                    {
+                        path: '',
+                        loadComponent: () => import('@features/productos/pages/producto-list/producto-list').then(m => m.ProductoList),
+                    },
+                    {
+                        path: 'nuevo',
+                        loadComponent: () => import('@features/productos/pages/producto-form/producto-form').then(m => m.ProductoForm),
+                    },
+                    {
+                        path: 'editar/:id',
+                        loadComponent: () => import('@features/productos/pages/producto-form/producto-form').then(m => m.ProductoForm),
+                    }
+                ]
             },
             {
                 path: 'facturas',

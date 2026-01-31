@@ -1,0 +1,70 @@
+<div class="page-container">
+    <div class="page-header flex justify-between items-center mb-6">
+        <div>
+            <h1 class="text-2xl font-bold text-slate-800">Productos</h1>
+        </div>
+        <app-button label="Añadir Producto" icon="plus" (onClick)="nuevoProducto()" />
+    </div>
+
+    <!-- Filtros -->
+    <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100 mb-6 flex gap-4 justify-center items-center">
+        <div class="flex-1 min-w-[250px]">
+            <app-input-text label="Buscar producto" placeholder="Nombre del producto..." icon="search" iconPos="left"
+                [(ngModel)]="filtroTexto" (ngModelChange)="onSearch()" />
+        </div>
+        <div class="w-[200px]">
+            <app-select label="Estado" [options]="estadoOptions" [(ngModel)]="filtroEstado"
+                (ngModelChange)="onEstadoChange()" />
+        </div>
+        <app-button class="mt-6" label="Actualizar" icon="refresh" severity="secondary" (onClick)="cargarProductos()" />
+    </div>
+
+    <!-- Tabla -->
+    <div class="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
+        <app-table [data]="productos()" [columns]="columns" [pagination]="pagination()" [loading]="loading()"
+            (onPageChange)="cargarProductos($event)">
+
+            <!-- Custom Cell para Precio -->
+            <ng-template appTemplate="precioUnitario" let-row="row">
+                <span class="text-slate-800 font-medium">
+                    {{ row.precioUnitario | currency:'USD':'symbol':'1.2-2' }}
+                </span>
+            </ng-template>
+
+            <!-- Custom Cell para Stock -->
+            <ng-template appTemplate="stockActual" let-row="row">
+                <span
+                    [class]="'px-3 py-1 rounded-full text-xs font-bold ' + (row.stockActual <= 10 ? 'bg-orange-100 text-orange-700' : 'bg-blue-100 text-blue-700')">
+                    {{ row.stockActual }} unid.
+                </span>
+            </ng-template>
+
+            <!-- Custom Cell para el Estado -->
+            <ng-template appTemplate="activo" let-row="row">
+                @if (row.activo) {
+                <span class="px-3 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full">
+                    ACTIVO
+                </span>
+                } @else {
+                <span class="px-3 py-1 bg-red-100 text-red-700 text-xs font-bold rounded-full">
+                    INACTIVO
+                </span>
+                }
+            </ng-template>
+
+            <!-- Acciones -->
+            <ng-template appTemplate="acciones" let-row="row">
+                <div class="flex gap-2">
+                    <button (click)="editarProducto(row)"
+                        class="p-2 hover:bg-slate-100 rounded-lg text-slate-500 transition-colors">
+                        <i class="pi pi-pencil"></i>
+                    </button>
+                    <button (click)="eliminarProducto(row)"
+                        class="p-2 hover:bg-red-50 rounded-lg text-red-500 transition-colors">
+                        <i class="pi pi-trash"></i>
+                    </button>
+                </div>
+            </ng-template>
+        </app-table>
+    </div>
+</div>
