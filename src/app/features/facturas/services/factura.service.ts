@@ -1,13 +1,9 @@
-import { Injectable, inject } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpService } from '@core/services';
-import { API_ENDPOINTS } from '@core/constants';
-import {
-    FacturaRequest,
-    ApiResponse,
-    Factura,
-    FacturaFiltroParams
-} from '@models/interfaces';
+import { API_ENDPOINTS } from '@core/constants/app.constants';
+import { ApiResponse, Factura, FacturaRequest, FacturaParams } from '@models/interfaces';
+import { HttpService } from '@core/services/http.service';
 
 @Injectable({
     providedIn: 'root'
@@ -15,7 +11,7 @@ import {
 export class FacturaService {
     private http = inject(HttpService);
 
-    obtenerFacturas(params?: FacturaFiltroParams): Observable<ApiResponse<Factura[]>> {
+    obtenerFacturas(params: FacturaParams): Observable<ApiResponse<Factura[]>> {
         return this.http.get<ApiResponse<Factura[]>>(API_ENDPOINTS.FACTURAS.BASE, params);
     }
 

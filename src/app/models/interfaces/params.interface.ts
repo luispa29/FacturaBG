@@ -7,12 +7,12 @@ export interface PaginacionParams {
     ordenAscendente?: boolean;
 }
 
-export interface FacturaFiltroParams {
-    NumeroFactura?: string;
-    ClienteID?: number;
-    VendedorID?: number;
-    FechaDesde?: Date;
-    FechaHasta?: Date;
-    Pagina?: number;
-    RegistrosPorPagina?: number;
+export interface FacturaParams extends PaginacionParams {
+    numeroFactura?: string;
+    clienteID?: number;
+    vendedorID?: number;
+    fechaDesde?: string;
+    fechaHasta?: string;
+    montoDesde?: number;
+    montoHasta?: number;
 }

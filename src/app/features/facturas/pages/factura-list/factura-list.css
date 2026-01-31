@@ -1,0 +1,30 @@
+.page-container {
+    background-color: #f8fafc;
+    min-height: calc(100vh - 64px);
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+:host ::ng-deep .p-datatable {
+    border: none;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-header {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+}

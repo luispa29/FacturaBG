@@ -41,14 +41,21 @@ export interface Usuario {
 }
 
 export interface Factura {
-    id: number;
+    facturaID: number;
     numeroFactura: string;
     clienteID: number;
+    clienteIdentificacion: string;
+    clienteNombre: string;
+    clienteTelefono: string;
+    clienteEmail: string;
     vendedorID: number;
+    vendedorNombre: string;
     fechaFactura: Date;
     subtotal: number;
-    impuesto: number;
+    iva: number;
     total: number;
+    activo: boolean;
+    fechaCreacion: Date;
     detalles: FacturaDetalle[];
     pagos: FacturaPago[];
 }

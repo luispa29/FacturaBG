@@ -68,7 +68,7 @@ export const routes: Routes = [
                 children: [
                     {
                         path: '',
-                        loadComponent: () => import('./app').then(m => m.App), // Placeholder listado
+                        loadComponent: () => import('./features/facturas/pages/factura-list/factura-list').then(m => m.FacturaList),
                     },
                     {
                         path: 'nueva',

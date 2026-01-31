@@ -1,0 +1,78 @@
+<div class="p-6 page-container animate-fade-in">
+    <!-- Header Section -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+        <div>
+            <h1 class="text-3xl font-black text-slate-800 tracking-tight">Historial de Facturas</h1>
+            <p class="text-slate-500 mt-1">Gestione y consulte todas las transacciones realizadas</p>
+        </div>
+        <app-button label="Nueva Factura" icon="plus" size="large" (onClick)="nuevaFactura()" />
+    </div>
+
+    <!-- Filters Card -->
+    <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 mb-8">
+        <div class="flex items-center gap-2 mb-6">
+            <div class="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-blue-600">
+                <i class="pi pi-filter"></i>
+            </div>
+            <h2 class="font-bold text-slate-700">Filtros de Búsqueda</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <app-input-text label="N° Factura" placeholder="FAC-XXXX" [(ngModel)]="filtros.numeroFactura" />
+
+            <app-select label="Cliente" [options]="clientesOptions()" [(ngModel)]="filtros.clienteID"
+                placeholder="Todos los clientes" [filter]="true" [showClear]="true" />
+
+            <app-select label="Vendedor" [options]="vendedoresOptions()" [(ngModel)]="filtros.vendedorID"
+                placeholder="Todos los vendedores" [filter]="true" [showClear]="true" />
+
+            <app-input-text label="Monto Desde" type="number" placeholder="Min" [(ngModel)]="filtros.montoDesde" />
+
+            <app-input-text label="Monto Hasta" type="number" placeholder="Max" [(ngModel)]="filtros.montoHasta" />
+
+            <app-input-text label="Fecha Desde" type="date" [(ngModel)]="filtros.fechaDesde" />
+
+            <app-input-text label="Fecha Hasta" type="date" [(ngModel)]="filtros.fechaHasta" />
+
+            <div class="flex items-end gap-3 md:col-span-1 lg:col-span-1">
+                <app-button label="Buscar" icon="search" class="flex-1" (onClick)="cargarFacturas()" />
+                <app-button label="Limpiar" severity="secondary" variant="outline" (onClick)="limpiarFiltros()" />
+            </div>
+        </div>
+    </div>
+
+    <!-- Table Section -->
+    <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
+        <app-table [data]="facturas()" [columns]="columns" [loading]="loading()" [pagination]="pagination()"
+            (onPageChange)="cargarFacturas($event)">
+
+            <ng-template appTemplate="fechaFactura" let-row="row">
+                <div class="flex flex-col">
+                    <span class="font-medium text-slate-700">{{ row.fechaFactura | date:'dd/MM/yyyy' }}</span>
+                    <span class="text-[10px] text-slate-400 uppercase font-bold">{{ row.fechaFactura | date:'HH:mm'
+                        }}</span>
+                </div>
+            </ng-template>
+
+            <ng-template appTemplate="total" let-row="row" >
+                <span class="text-lg font-black text-blue-600">{{ row.total | currency:'USD' }}</span>
+            </ng-template>
+
+            <ng-template appTemplate="activo" let-row="row">
+                <span
+                    [class]="'px-3 py-1 rounded-full text-[10px] font-bold uppercase ' + (row.activo ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700')">
+                    {{ row.activo ? 'Emitida' : 'Anulada' }}
+                </span>
+            </ng-template>
+
+            <ng-template appTemplate="acciones" let-row="row">
+                <div class="flex gap-2 justify-center">
+                    <button (click)="verDetalle(row)"
+                        class="p-2 text-blue-500 hover:bg-blue-50 rounded-xl transition-all" title="Ver Detalle">
+                        <i class="pi pi-eye"></i>
+                    </button>
+                </div>
+            </ng-template>
+        </app-table>
+    </div>
+</div>
