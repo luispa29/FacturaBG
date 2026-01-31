@@ -1,0 +1,17 @@
+<div class="flex flex-col gap-2 w-full">
+    @if (label) {
+    <label class="font-medium text-sm text-gray-700">
+        {{ label }}
+        @if (required) {
+        <span class="text-red-500">*</span>
+        }
+    </label>
+    }
+
+    <input pInputText [type]="type" [placeholder]="placeholder" [disabled]="disabled" [value]="value"
+        (input)="onInputChange($event)" (blur)="onTouched()" class="w-full" [class.p-invalid]="errorMessage" />
+
+    @if (errorMessage) {
+    <small class="text-red-500">{{ errorMessage }}</small>
+    }
+</div>
