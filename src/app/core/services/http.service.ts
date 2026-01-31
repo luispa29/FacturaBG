@@ -44,9 +44,20 @@ export class HttpService {
         });
     }
 
-    post<T>(endpoint: string, body: any): Observable<T> {
+    post<T>(endpoint: string, body: any, params?: any): Observable<T> {
+        let httpParams = new HttpParams();
+
+        if (params) {
+            Object.keys(params).forEach(key => {
+                if (params[key] !== null && params[key] !== undefined) {
+                    httpParams = httpParams.set(key, params[key].toString());
+                }
+            });
+        }
+
         return this.http.post<T>(this.buildUrl(endpoint), body, {
-            headers: this.getHeaders()
+            headers: this.getHeaders(),
+            params: httpParams
         });
     }
 
