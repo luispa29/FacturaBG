@@ -16,11 +16,12 @@
         @if (type === 'password') {
         <p-password [placeholder]="placeholder" [disabled]="disabled" [(ngModel)]="value"
             (ngModelChange)="onInputChangeDesdeModel($event)" (onBlur)="onTouched()" [feedback]="feedback"
-            [toggleMask]="toggleMask" [fluid]="true" [styleClass]="errorMessage ? 'p-invalid' : ''"
+            [toggleMask]="toggleMask" [fluid]="true" [styleClass]="(errorMessage || invalid) ? 'p-invalid' : ''"
             [inputStyleClass]="'w-full'" />
         } @else {
         <input pInputText [type]="type" [placeholder]="placeholder" [disabled]="disabled" [value]="value"
-            (input)="onInputChange($event)" (blur)="onTouched()" class="w-full" [class.p-invalid]="errorMessage" />
+            (input)="onInputChange($event)" (blur)="onTouched()" class="w-full"
+            [class.p-invalid]="errorMessage || invalid" />
         }
     </p-iconfield>
 

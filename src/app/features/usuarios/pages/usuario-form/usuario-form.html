@@ -1,0 +1,71 @@
+<div class="page-container animate-fade-in">
+    <div class="page-header flex justify-between items-center mb-6">
+        <div>
+            <h1 class="text-2xl font-bold text-slate-800">
+                {{ isEdit() ? 'Editar Usuario' : 'Nuevo Usuario' }}
+            </h1>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden max-w-4xl mx-auto">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="p-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Nombre Completo -->
+                <div class="md:col-span-2">
+                    <app-input-text label="Nombre Completo" placeholder="Ej. Juan Pérez" formControlName="nombre"
+                        [invalid]="!!(form.get('nombre')?.invalid && form.get('nombre')?.touched)" />
+                </div>
+
+                <!-- Username -->
+                <div>
+                    <app-input-text label="Nombre de Usuario" placeholder="Ej. jperez" formControlName="username"
+                        [invalid]="!!(form.get('username')?.invalid && form.get('username')?.touched)" />
+                </div>
+
+                <!-- Email -->
+                <div>
+                    <app-input-text label="Correo Electrónico" placeholder="ejemplo@correo.com" formControlName="email"
+                        [invalid]="!!(form.get('email')?.invalid && form.get('email')?.touched)" />
+                </div>
+
+                <!-- Contraseña / Nueva Contraseña -->
+                <div [class.md:col-span-2]="isEdit()">
+                    @if (isEdit()) {
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 space-y-4">
+                        <div class="flex items-center gap-3">
+                            <input type="checkbox" id="actualizarContrasena" formControlName="actualizarContrasena"
+                                class="w-5 h-5 rounded border-slate-300 text-blue-600 focus:ring-blue-500">
+                            <label for="actualizarContrasena" class="text-sm font-medium text-slate-700 cursor-pointer">
+                                ¿Actualizar contraseña del usuario?
+                            </label>
+                        </div>
+
+                        @if (form.get('actualizarContrasena')?.value) {
+                        <div class="animate-slide-down">
+                            <app-input-text label="Nueva Contraseña" type="password"
+                                placeholder="Ingrese la nueva contraseña" formControlName="contrasena"
+                                [invalid]="!!(form.get('contrasena')?.invalid && form.get('contrasena')?.touched)" />
+                        </div>
+                        }
+                    </div>
+                    } @else {
+                    <app-input-text label="Contraseña" type="password" placeholder="Ingrese una contraseña"
+                        formControlName="contrasena"
+                        [invalid]="!!(form.get('contrasena')?.invalid && form.get('contrasena')?.touched)" />
+                    }
+                </div>
+
+                <!-- Estado -->
+                <div>
+                    <app-select label="Estado" [options]="estadoOptions" formControlName="activo" />
+                </div>
+            </div>
+
+            <div class="flex justify-end gap-4 mt-10 pt-6 border-t border-slate-100">
+                <app-button label="Cancelar" severity="secondary" variant="outline" (onClick)="cancelar()"
+                    [disabled]="loading()" />
+                <app-button label="Guardar Usuario" icon="save" type="submit" [loading]="loading()" />
+            </div>
+        </form>
+    </div>
+</div>

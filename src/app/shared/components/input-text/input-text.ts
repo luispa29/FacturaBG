@@ -31,6 +31,8 @@ export class InputText implements ControlValueAccessor {
   @Input() iconPos: 'left' | 'right' = 'left';
   @Input() feedback: boolean = false;
   @Input() toggleMask: boolean = true;
+  @Input() invalid: any = false;
+  @Input() control?: any; // Agregando soporte opcional para pasar el control directamente
 
   value: string = '';
   onChange: any = () => { };

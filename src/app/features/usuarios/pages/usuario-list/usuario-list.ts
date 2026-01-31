@@ -1,6 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Table, Button, InputText, Select, AppTemplate } from '@shared/components';
 import { UsuarioService } from '../../services/usuario.service';
 import { Usuario, PaginacionParams, ApiResponse, PaginationData, PageEvent } from '@models/interfaces';
@@ -16,6 +17,7 @@ import { MessageService } from 'primeng/api';
 export class UsuarioList implements OnInit {
     private usuarioService = inject(UsuarioService);
     private messageService = inject(MessageService);
+    private router = inject(Router);
 
     // Estado de los datos
     usuarios = signal<Usuario[]>([]);
@@ -102,19 +104,15 @@ export class UsuarioList implements OnInit {
     }
 
     nuevoUsuario(): void {
-        // Lógica para abrir modal o navegar a creación
-        this.messageService.add({
-            severity: 'info',
-            summary: 'Info',
-            detail: 'Funcionalidad de creación próximamente'
-        });
+        this.router.navigate(['/usuarios/nuevo']);
     }
 
     editarUsuario(usuario: Usuario): void {
-        // Lógica para editar
+        this.router.navigate(['/usuarios/editar', usuario.usuarioID], { state: { usuario } });
     }
 
     eliminarUsuario(usuario: Usuario): void {
-        // Lógica para eliminar
+        // Implementación pendiente o confirmación
+        this.messageService.add({ severity: 'info', summary: 'Info', detail: 'Funcionalidad de eliminar pendiente' });
     }
 }

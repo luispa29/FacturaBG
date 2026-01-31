@@ -14,7 +14,20 @@ export const routes: Routes = [
         children: [
             {
                 path: 'usuarios',
-                loadComponent: () => import('@features/usuarios/pages/usuario-list/usuario-list').then(m => m.UsuarioList),
+                children: [
+                    {
+                        path: '',
+                        loadComponent: () => import('@features/usuarios/pages/usuario-list/usuario-list').then(m => m.UsuarioList),
+                    },
+                    {
+                        path: 'nuevo',
+                        loadComponent: () => import('@features/usuarios/pages/usuario-form/usuario-form').then(m => m.UsuarioForm),
+                    },
+                    {
+                        path: 'editar/:id',
+                        loadComponent: () => import('@features/usuarios/pages/usuario-form/usuario-form').then(m => m.UsuarioForm),
+                    }
+                ]
             },
             {
                 path: 'clientes',
