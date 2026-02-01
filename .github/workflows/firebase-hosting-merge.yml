@@ -1,0 +1,39 @@
+name: Deploy to Firebase Hosting on push
+'on':
+  push:
+    branches:
+      - master
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+      - name: Create environment files
+        run: |
+          mkdir -p src/environments
+          cat <<EOF > src/environments/environment.ts
+          export const environment = {
+            production: true,
+            apiUrl: 'https://www.facturatecnica.somee.com/api',
+            firebase: {
+              apiKey: "${{ secrets.FIREBASE_API_KEY }}",
+              authDomain: "facturatecnica-75f98.firebaseapp.com",
+              projectId: "facturatecnica-75f98",
+              storageBucket: "acturatecnica-75f98.firebasestorage.app",
+              messagingSenderId: "527371715343",
+              appId: "1:527371715343:web:5d108eeef8dd935879b47a"
+            }
+          };
+          EOF
+          cp src/environments/environment.ts src/environments/environment.prod.ts
+      - name: Build
+        run: npm run build
+      - name: Deploy to Firebase
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_FINANZAS_APP }}'
+          channelId: live
+          projectId: facturatecnica-75f98
