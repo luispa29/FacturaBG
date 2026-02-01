@@ -1,59 +1,53 @@
-# FacturaBG
+# FacturaBG - Sistema de Facturación Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.2.1.
+Este es el proyecto de frontend para el sistema de facturación BG, desarrollado con Angular 20.
 
-## Development server
+## Tecnologías Utilizadas
 
-To start a local development server, run:
+- Angular 20.2.1
+- PrimeNG 20.4.0 (Componentes de UI)
+- TailwindCSS 3.4.19 (Estilos)
+- PrimeIcons
+- RxJS
 
-```bash
-ng serve
-```
+## Prerrequisitos
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- Node.js (se recomienda versión LTS)
+- npm (administrador de paquetes de Node)
+- Angular CLI (`npm install -g @angular/cli`)
 
-## Code scaffolding
+## Instalación
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+1. Navegue a la carpeta del proyecto `FacturaBG`.
+2. Instale las dependencias necesarias:
 
 ```bash
-ng build
+npm install
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## Configuración
 
-## Running unit tests
+La configuración del entorno se encuentra en `src/environments/`. Asegúrese de que la propiedad `apiUrl` apunte a la dirección correcta de su API backend:
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+- Desarrollo: `src/environments/environment.ts`
+- Producción: `src/environments/environment.prod.ts`
+
+## Ejecución del Proyecto
+
+Para iniciar un servidor de desarrollo local, ejecute:
 
 ```bash
-ng test
+npm start
 ```
 
-## Running end-to-end tests
+Una vez que el servidor esté funcionando, abra su navegador en `http://localhost:4200/`. La aplicación se recargará automáticamente cada vez que modifique los archivos de origen.
 
-For end-to-end (e2e) testing, run:
+## Construcción para Producción
+
+Para compilar el proyecto para un entorno de producción, ejecute:
 
 ```bash
-ng e2e
+npm run build
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Los archivos de salida se almacenarán en el directorio `dist/`. Por defecto, la compilación de producción optimiza la aplicación para el rendimiento.
